@@ -1,0 +1,6 @@
+drupalgen.settings:
+  title: 'DrupalGen'
+  description: 'Configure DrupalGen.'
+  parent: system.admin_config_system
+  route_name: drupalgen.settings
+  weight: 100

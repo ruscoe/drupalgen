@@ -1,0 +1,7 @@
+drupalgen.settings:
+  path: '/admin/config/drupalgen'
+  defaults:
+    _form: '\Drupal\drupalgen\Form\SettingsForm'
+    _title: 'DrupalGen Settings'
+  requirements:
+    _permission: 'administer site configuration'
