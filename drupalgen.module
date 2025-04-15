@@ -1,0 +1,50 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function drupalgen_form_node_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // Add a wrapper div so we can target it with AJAX.
+  $form['drupalgen_ajax_wrapper'] = [
+    '#type' => 'container',
+    '#attributes' => ['id' => 'drupalgen-ajax-wrapper'],
+  ];
+
+  $form['drupalgen_ajax_wrapper']['prompt'] = [
+    '#type' => 'textfield',
+    '#title' => t('ChatGPT Prompt'),
+    '#description' => t('Enter a prompt like: "Outline an article on liquid cooling in PCs."'),
+    '#default_value' => '',
+  ];
+
+  $form['drupalgen_ajax_wrapper']['generate_button'] = [
+    '#type' => 'submit',
+    '#value' => t('Generate'),
+    '#ajax' => [
+      'callback' => 'drupalgen_ajax_callback',
+      'wrapper' => 'drupalgen-ajax-wrapper',
+      'effect' => 'fade',
+    ],
+    '#submit' => ['drupalgen_generate_button_submit'],
+    // Prevent triggering the full form submit.
+    '#limit_validation_errors' => [],
+  ];
+}
+
+/**
+ * Submit handler for the AJAX button.
+ */
+function drupalgen_generate_button_submit(array &$form, FormStateInterface $form_state) {
+  $value = $form_state->getValue(['drupalgen_ajax_wrapper', 'prompt']);
+  \Drupal::logger('drupalgen')->info('Submitted via AJAX: @text', ['@text' => $value]);
+  \Drupal::messenger()->addMessage('AJAX says: ' . $value);
+}
+
+/**
+ * AJAX callback.
+ */
+function drupalgen_ajax_callback(array &$form, FormStateInterface $form_state) {
+  return $form['drupalgen_ajax_wrapper'];
+}
