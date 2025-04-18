@@ -43,7 +43,7 @@ class SettingsForm extends ConfigFormBase {
       '#type' => 'number',
       '#title' => $this->t('Max Completion Tokens'),
       '#default_value' => $config->get('max_completion_tokens') ? $config->get('max_completion_tokens') : self::DEFAULT_COMPLETION_TOKENS,
-      '#description' => $this->t('Enter the maximum number of tokens to use per API response.'),
+      '#description' => $this->t('Enter the maximum number of tokens to use per API response. More tokens mean longer responses, but will increase the cost of using ChatGPT.'),
     ];
 
     // Add a select field for the model.
