@@ -34,6 +34,9 @@ function drupalgen_form_node_form_alter(&$form, FormStateInterface $form_state, 
     // Prevent triggering the full form submit.
     '#limit_validation_errors' => [],
   ];
+
+  // Attach CSS library for styling.
+  $form['#attached']['library'][] = 'drupalgen/forms';
 }
 
 /**
@@ -75,7 +78,7 @@ function drupalgen_ajax_callback(array &$form, FormStateInterface $form_state) {
   // Add markup to the form.
   $form['drupalgen_ajax_wrapper']['response'] = [
     '#type' => 'markup',
-    '#markup' => '<div class="ajax-response">' . $content . '</div>',
+    '#markup' => '<div class="chatgpt-response">' . $content . '</div>',
   ];
 
   return $form['drupalgen_ajax_wrapper'];
