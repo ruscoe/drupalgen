@@ -20,7 +20,7 @@ function drupalgen_form_node_form_alter(&$form, FormStateInterface $form_state, 
     '#type' => 'textfield',
     '#title' => t('ChatGPT Prompt'),
     '#description' => t('Enter a prompt like: "Outline an article on liquid cooling in PCs."'),
-    '#default_value' => '222',
+    '#default_value' => '',
   ];
 
   $form['drupalgen_ajax_wrapper']['generate_button'] = [
