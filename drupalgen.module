@@ -1,6 +1,10 @@
 <?php
 
 use Drupal\Core\Form\FormStateInterface;
+use OpenAI\OpenAICompletions;
+
+// Require vendor autoload.
+require_once __DIR__ . '/vendor/autoload.php';
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -38,7 +42,41 @@ function drupalgen_form_node_form_alter(&$form, FormStateInterface $form_state, 
 function drupalgen_ajax_callback(array &$form, FormStateInterface $form_state) {
   $value = $form_state->getValue('prompt');
 
-  \Drupal::messenger()->addMessage('AJAX says: ' . $value);
+  // Get API configuration.
+  $config = \Drupal::config('drupalgen.settings');
+  $api_key = $config->get('openai_api_key');
+  $max_completion_tokens = $config->get('max_completion_tokens');
+  $model = $config->get('model');
+
+  // Instantiate the OpenAI API client.
+  $api = new OpenAI\OpenAICompletions($api_key);
+  
+  $parameters = [
+      'max_completion_tokens' => (int) $max_completion_tokens,
+  ];
+  
+  $messages = [
+      (object) ['role' => 'user', 'content' => $value]
+  ];
+  
+  // Make the API request.
+  try {
+      $response = $api->create($model, $messages, 1, $parameters);
+  } catch (Exception $e) {
+      \Drupal::messenger()->addError('Error: ' . $e->getMessage());
+      return $form['drupalgen_ajax_wrapper'];
+  }
+
+  $content = $response->choices[0]->message->content;
+
+  // Replace linebreaks with <br> tags.
+  $content = nl2br(htmlspecialchars($content));
+
+  // Add markup to the form.
+  $form['drupalgen_ajax_wrapper']['response'] = [
+    '#type' => 'markup',
+    '#markup' => '<div class="ajax-response">' . $content . '</div>',
+  ];
 
   return $form['drupalgen_ajax_wrapper'];
 }
