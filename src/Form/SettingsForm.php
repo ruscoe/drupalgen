@@ -7,7 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 
 class SettingsForm extends ConfigFormBase {
 
-  const DEFAULT_COMPLETION_TOKENS = 128;
+  const DEFAULT_COMPLETION_TOKENS = 512;
   const DEFAULT_MODEL = 'gpt-4o';
 
   /**
