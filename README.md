@@ -1,5 +1,7 @@
 # DrupalGen - Generate content using OpenAI's ChatGPT in Drupal
 
+![Screenshot from 2025-04-17 18-03-02](https://github.com/user-attachments/assets/e45fb912-6292-4ab6-8c20-ce5c3b7c214e)
+
 ## Requirements
 
 * Drupal 9 or 10
