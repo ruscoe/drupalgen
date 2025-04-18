@@ -11,7 +11,7 @@
 Clone this repo into your Drupal installation and run `composer install`. Example:
 
 ```bash
-cd /PATH_TO_YOUR_SITE/modules/contrib/
+cd PATH_TO_YOUR_SITE/modules/contrib/
 git clone git@github.com:ruscoe/drupalgen.git`
 cd drupalgen
 composer install
